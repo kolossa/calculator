@@ -150,6 +150,18 @@ class CalculatorTests extends TestCase
     /**
      * @test
      */
+    public function testParentheses5()
+    {
+        $this->expectException(ParenthesesException::class);
+
+        $s='3*(5-2[7-13)5]';
+        
+        $this->calculator->calculate($s);
+    }
+
+    /**
+     * @test
+     */
     public function testUnidentifiedOperator()
     {
         $this->expectException(UnknownOperatorException::class);

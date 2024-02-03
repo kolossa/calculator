@@ -7,6 +7,7 @@ class Validator
     public function checkParentheses(array $expression):void
     {
         $num=[];
+        $embedTypesOpened=[];
         foreach ($expression as $value) {
             foreach(Parenthesis::getOpenedParentheses() as $key=>$parenthesis){
                 if($value==$parenthesis){
@@ -14,6 +15,8 @@ class Validator
                         $num[$key]=0;
                     }
                     $num[$key]++;
+                    $embedTypesOpened[]=$parenthesis;
+
                 }
             }
             foreach(Parenthesis::getClosedParentheses() as $key=>$parenthesis){
@@ -22,6 +25,9 @@ class Validator
                         $num[$key]=0;
                     }
                     $num[$key]--;
+                    if(array_pop($embedTypesOpened)!=Parenthesis::getOpenedParentheses()[$key]){
+                        throw new ParenthesesException();
+                    }
                     if($num[$key]<0){
                         throw new ParenthesesException();
                     }
